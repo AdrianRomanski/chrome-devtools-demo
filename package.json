@@ -2,7 +2,9 @@
   "name": "@chrome-devtools-demo/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start-frontend": "nx run chrome-devtools-demo:serve"
+  },
   "private": true,
   "dependencies": {
     "@angular/common": "~20.3.0",
