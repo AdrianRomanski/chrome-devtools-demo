@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { AppService } from './app.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 @Controller()
 export class AppController {
@@ -19,5 +20,10 @@ export class AppController {
   @Get('users')
   getAllUsers() {
     return this.appService.getAllUsers();
+  }
+
+  @Post('login')
+  login(@Body() loginDto: LoginDto) {
+    return this.appService.login(loginDto);
   }
 }

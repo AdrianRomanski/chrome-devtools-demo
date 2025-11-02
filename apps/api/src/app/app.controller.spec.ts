@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, UnauthorizedException } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -102,6 +103,64 @@ describe('AppController', () => {
       expect(result[1].email).toBe('user2@example.com');
       expect(result[0]).not.toHaveProperty('password');
       expect(result[1]).not.toHaveProperty('password');
+    });
+  });
+
+  describe('login', () => {
+    beforeEach(() => {
+      // Clear users before each test
+      (service as any).users = [];
+      (service as any).nextId = 1;
+    });
+
+    it('should login successfully with correct credentials', () => {
+      // Register a user first
+      const registeredUser = controller.register({
+        email: 'test@example.com',
+        password: 'password123',
+        name: 'Test User',
+      });
+
+      // Login with correct credentials
+      const loginDto: LoginDto = {
+        email: 'test@example.com',
+        password: 'password123',
+      };
+
+      const result = controller.login(loginDto);
+
+      expect(result.id).toBe(registeredUser.id);
+      expect(result.email).toBe(registeredUser.email);
+      expect(result.name).toBe(registeredUser.name);
+      expect(result).toHaveProperty('createdAt');
+      expect(result).not.toHaveProperty('password');
+    });
+
+    it('should throw UnauthorizedException when email does not exist', () => {
+      const loginDto: LoginDto = {
+        email: 'nonexistent@example.com',
+        password: 'password123',
+      };
+
+      expect(() => controller.login(loginDto)).toThrow(UnauthorizedException);
+      expect(() => controller.login(loginDto)).toThrow('Invalid email or password');
+    });
+
+    it('should throw UnauthorizedException when password is incorrect', () => {
+      // Register a user first
+      controller.register({
+        email: 'test@example.com',
+        password: 'correctpassword',
+      });
+
+      // Try to login with wrong password
+      const loginDto: LoginDto = {
+        email: 'test@example.com',
+        password: 'wrongpassword',
+      };
+
+      expect(() => controller.login(loginDto)).toThrow(UnauthorizedException);
+      expect(() => controller.login(loginDto)).toThrow('Invalid email or password');
     });
   });
 });

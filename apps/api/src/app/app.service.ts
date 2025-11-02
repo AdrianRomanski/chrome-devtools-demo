@@ -1,5 +1,6 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
 
 interface User {
   id: number;
@@ -43,5 +44,23 @@ export class AppService {
 
   getAllUsers(): Array<{ id: number; email: string; name?: string; createdAt: Date }> {
     return this.users.map(({ password, ...user }) => user);
+  }
+
+  login(loginDto: LoginDto): { id: number; email: string; name?: string; createdAt: Date } {
+    // Find user by email
+    const user = this.users.find((u) => u.email === loginDto.email);
+    
+    if (!user) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    // Check password
+    if (user.password !== loginDto.password) {
+      throw new UnauthorizedException('Invalid email or password');
+    }
+
+    // Return user without password
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   }
 }
