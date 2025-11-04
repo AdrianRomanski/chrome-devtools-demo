@@ -1,0 +1,16 @@
+<main class="anime-container">
+  <h1 class="anime-title">Anime Collection</h1>
+  <div class="anime-grid" role="list">
+    @for (anime of animes; track anime.id) {
+      <article class="anime-card" role="listitem">
+        <div class="anime-image-wrapper">
+          <img [src]="anime.image" [alt]="'Cover image for ' + anime.title" class="anime-image" loading="lazy" />
+        </div>
+        <div class="anime-content">
+          <h2 class="anime-card-title">{{ anime.title }}</h2>
+          <p class="anime-description">{{ anime.description }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</main>
