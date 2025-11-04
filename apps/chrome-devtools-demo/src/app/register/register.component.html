@@ -1,5 +1,60 @@
 <div class="register-container">
   <h1>Register</h1>
-  <p>This is the register page for routing testing.</p>
+
+  <!-- Success Message -->
+  <div *ngIf="showSuccessMessage" class="success-message">
+    <div class="success-content">
+      <span class="success-icon">✓</span>
+      <span>Successful registration!</span>
+    </div>
+  </div>
+
+  <!-- User Info -->
+  <div *ngIf="showUserInfo && userId" class="user-info">
+    <p>You are user with nr: {{ userId }}</p>
+  </div>
+
+  <!-- Registration Form -->
+  <form *ngIf="!showSuccessMessage && !showUserInfo" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+    <!-- Email Field -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        [class.error]="email?.invalid && email?.touched"
+        placeholder="Enter your email"
+      />
+      <div *ngIf="email?.invalid && email?.touched" class="error-message">
+        {{ getEmailErrorMessage() }}
+      </div>
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        [class.error]="password?.invalid && password?.touched"
+        placeholder="Enter your password"
+      />
+      <div *ngIf="password?.invalid && password?.touched" class="error-message">
+        {{ getPasswordErrorMessage() }}
+      </div>
+    </div>
+
+    <!-- API Error Message -->
+    <div *ngIf="errorMessage" class="api-error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="registerForm.invalid" class="register-button">
+      Register
+    </button>
+  </form>
 </div>
 

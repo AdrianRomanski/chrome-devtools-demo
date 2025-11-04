@@ -1,0 +1,11 @@
+<div class="anime-container">
+  <h1 class="anime-title">Most popular animes</h1>
+  
+  <div class="anime-grid">
+    <div *ngFor="let anime of animes" class="anime-card">
+      <h2 class="anime-name">{{ anime.name }}</h2>
+      <p class="anime-description">{{ anime.description }}</p>
+    </div>
+  </div>
+</div>
+
