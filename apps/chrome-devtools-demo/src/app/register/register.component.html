@@ -3,7 +3,7 @@
     <h1>Register</h1>
 
     @if (showForm) {
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form" aria-label="Registration form">
         <div class="form-group">
           <label for="email">Email</label>
           <input
@@ -12,10 +12,14 @@
             formControlName="email"
             class="form-control"
             [class.error]="email?.invalid && email?.touched"
+            [attr.aria-invalid]="email?.invalid && email?.touched"
+            [attr.aria-describedby]="email?.invalid && email?.touched ? 'email-error' : null"
             placeholder="Enter your email"
+            autocomplete="email"
+            required
           />
           @if (email?.invalid && email?.touched) {
-            <span class="error-message">{{ getEmailError() }}</span>
+            <span id="email-error" class="error-message" role="alert" aria-live="polite">{{ getEmailError() }}</span>
           }
         </div>
 
@@ -27,29 +31,37 @@
             formControlName="password"
             class="form-control"
             [class.error]="password?.invalid && password?.touched"
+            [attr.aria-invalid]="password?.invalid && password?.touched"
+            [attr.aria-describedby]="password?.invalid && password?.touched ? 'password-error' : null"
             placeholder="Enter your password"
+            autocomplete="new-password"
+            required
+            aria-describedby="password-requirements"
           />
+          <div id="password-requirements" class="password-requirements">
+            Password must contain: 1 uppercase letter, 1 special character, and 1 number (minimum 8 characters)
+          </div>
           @if (password?.invalid && password?.touched) {
-            <span class="error-message">{{ getPasswordError() }}</span>
+            <span id="password-error" class="error-message" role="alert" aria-live="polite">{{ getPasswordError() }}</span>
           }
         </div>
 
         @if (errorMessage) {
-          <div class="error-alert">{{ errorMessage }}</div>
+          <div class="error-alert" role="alert" aria-live="assertive">{{ errorMessage }}</div>
         }
 
-        <button type="submit" class="btn-register" [disabled]="registerForm.invalid">
+        <button type="submit" class="btn-register" [disabled]="registerForm.invalid" [attr.aria-disabled]="registerForm.invalid">
           Register
         </button>
       </form>
     }
 
     @if (showSuccessMessage) {
-      <div class="success-message">Success register</div>
+      <div class="success-message" role="status" aria-live="polite" aria-atomic="true">Success register</div>
     }
 
     @if (showUserMessage && userId !== null) {
-      <div class="user-message">You are user nr {{ userId }}</div>
+      <div class="user-message" role="status" aria-live="polite" aria-atomic="true">You are user nr {{ userId }}</div>
     }
   </div>
 </div>
