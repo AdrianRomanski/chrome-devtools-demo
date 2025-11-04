@@ -1,7 +1,56 @@
 <div class="register-container">
   <div class="register-card">
     <h1>Register</h1>
-    <p>Register component - Coming soon</p>
+
+    @if (showForm) {
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            [class.error]="email?.invalid && email?.touched"
+            placeholder="Enter your email"
+          />
+          @if (email?.invalid && email?.touched) {
+            <span class="error-message">{{ getEmailError() }}</span>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.error]="password?.invalid && password?.touched"
+            placeholder="Enter your password"
+          />
+          @if (password?.invalid && password?.touched) {
+            <span class="error-message">{{ getPasswordError() }}</span>
+          }
+        </div>
+
+        @if (errorMessage) {
+          <div class="error-alert">{{ errorMessage }}</div>
+        }
+
+        <button type="submit" class="btn-register" [disabled]="registerForm.invalid">
+          Register
+        </button>
+      </form>
+    }
+
+    @if (showSuccessMessage) {
+      <div class="success-message">Success register</div>
+    }
+
+    @if (showUserMessage && userId !== null) {
+      <div class="user-message">You are user nr {{ userId }}</div>
+    }
   </div>
 </div>
 
