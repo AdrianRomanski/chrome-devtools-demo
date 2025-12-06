@@ -76,6 +76,7 @@
 }
 
 .btn {
+  display: block;
   padding: 0.875rem 2rem;
   font-size: 1.125rem;
   font-weight: 600;
@@ -85,6 +86,8 @@
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-decoration: none;
+  text-align: center;
   
   &:focus {
     outline: 3px solid #667eea;
