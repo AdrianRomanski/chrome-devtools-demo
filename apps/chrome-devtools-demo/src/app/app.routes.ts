@@ -10,6 +10,10 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('../../components/register').then(m => m.Register)
   },
   {
+    path: 'login',
+    loadComponent: () => import('../../components/login').then(m => m.Login)
+  },
+  {
     path: '',
     redirectTo: 'welcome',
     pathMatch: 'full'
