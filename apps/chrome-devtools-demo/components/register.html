@@ -1,0 +1,103 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="card-header">
+      <h2 class="register-title">Create Account</h2>
+      <p class="register-subtitle">Join the anime community today!</p>
+    </div>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <div class="form-group">
+        <label for="email" class="form-label">
+          Email Address
+          <span class="required-indicator" aria-label="required">*</span>
+        </label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-control"
+          [class.error]="registerForm.controls.email.invalid && registerForm.controls.email.touched"
+          placeholder="your.email@example.com"
+          aria-required="true"
+          [attr.aria-invalid]="registerForm.controls.email.invalid && registerForm.controls.email.touched"
+          [attr.aria-describedby]="getEmailError() ? 'email-error' : null"
+        />
+        @if (getEmailError()) {
+          <span id="email-error" class="error-message" role="alert">
+            {{ getEmailError() }}
+          </span>
+        }
+      </div>
+      
+      <div class="form-group">
+        <label for="password" class="form-label">
+          Password
+          <span class="required-indicator" aria-label="required">*</span>
+        </label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-control"
+          [class.error]="registerForm.controls.password.invalid && registerForm.controls.password.touched"
+          placeholder="Enter a secure password"
+          aria-required="true"
+          [attr.aria-invalid]="registerForm.controls.password.invalid && registerForm.controls.password.touched"
+          [attr.aria-describedby]="getPasswordError() ? 'password-error' : null"
+        />
+        @if (getPasswordError()) {
+          <span id="password-error" class="error-message" role="alert">
+            {{ getPasswordError() }}
+          </span>
+        }
+        <div class="password-requirements">
+          <p class="requirements-title">Password must contain:</p>
+          <ul class="requirements-list">
+            <li [class.met]="registerForm.controls.password.value.length >= 8">
+              At least 8 characters
+            </li>
+            <li [class.met]="registerForm.controls.password.hasError('noUpperCase') === false && registerForm.controls.password.value">
+              One uppercase letter
+            </li>
+            <li [class.met]="registerForm.controls.password.hasError('noSpecialChar') === false && registerForm.controls.password.value">
+              One special character
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      @if (errorMessage()) {
+        <div class="alert alert-error" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+      
+      @if (successMessage()) {
+        <div class="alert alert-success" role="alert">
+          {{ successMessage() }}
+        </div>
+      }
+      
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isSubmitting()"
+          [attr.aria-busy]="isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Creating Account...</span>
+          } @else {
+            <span>Create Account</span>
+          }
+        </button>
+        
+        <p class="login-link">
+          Already have an account? 
+          <a href="/welcome" class="link">Sign in</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<section class="page">
+  <header class="hero">
+    <p class="eyebrow">Most popular animes</p>
+    <h1 class="title">Dive into the worlds everyone is talking about</h1>
+    <p class="subtitle">
+      Handpicked top 10 hits across action, fantasy, sports, and slice of life. Sharp visuals, rich stories, and unforgettable characters.
+    </p>
+  </header>
+
+  <div class="grid">
+    @for (anime of animes; track anime.title) {
+      <article class="card" aria-label="{{ anime.title }}">
+        <div class="media">
+          <img
+            ngSrc="{{ anime.image }}"
+            alt="{{ anime.title }} key visual"
+            width="480"
+            height="320"
+            priority
+          />
+          <div class="badge rating">★ {{ anime.rating }}</div>
+          <div class="badge year">{{ anime.year }}</div>
+        </div>
+        <div class="content">
+          <h2 class="card-title">{{ anime.title }}</h2>
+          <p class="meta">{{ anime.studio }} · {{ anime.genre }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>
