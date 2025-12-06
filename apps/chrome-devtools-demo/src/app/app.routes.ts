@@ -14,6 +14,10 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('../../components/login').then(m => m.Login)
   },
   {
+    path: 'anime',
+    loadComponent: () => import('../../components/animes').then(m => m.Animes)
+  },
+  {
     path: '',
     redirectTo: 'welcome',
     pathMatch: 'full'

@@ -49,8 +49,8 @@ export class Login {
       .subscribe({
         next: () => {
           this.isSubmitting.set(false);
-          // Redirect to welcome or dashboard on success
-          this.router.navigate(['/welcome']);
+          // Redirect to anime page on success
+          this.router.navigate(['/anime']);
         },
         error: () => {
           this.isSubmitting.set(false);

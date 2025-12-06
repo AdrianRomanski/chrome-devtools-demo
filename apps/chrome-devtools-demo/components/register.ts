@@ -75,9 +75,9 @@ export class Register {
       .subscribe({
         next: () => {
           this.isSubmitting.set(false);
-          this.successMessage.set('Registration successful! Redirecting to login...');
+          this.successMessage.set('Registration successful! Redirecting...');
           setTimeout(() => {
-            this.router.navigate(['/welcome']);
+            this.router.navigate(['/anime']);
           }, 2000);
         },
         error: (error) => {
